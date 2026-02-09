@@ -1,404 +1,357 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Cpu, 
-  Wrench, 
-  Zap, 
-  ShieldCheck, 
-  Menu, 
-  X, 
-  Thermometer, 
-  MapPin, 
-  Instagram, 
-  ExternalLink, 
-  Camera, 
-  Settings, 
-  Rocket,
-  MessageCircle,
-  Percent,
-  AlertCircle,
-  Clock,
-  ChevronRight
-} from 'lucide-react';
-
-const App = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showFormSuccess, setShowFormSuccess] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-
-  const whatsappNumber = "541157273920";
-  const whatsappUrlBase = `https://wa.me/${whatsappNumber}`;
-
-  // Lista de servicios filtrada y con descripciones (Precios Local Diciembre 2025)
-  const services = [
-    {
-      category: "Software & Optimización",
-      icon: <Settings className="w-5 h-5 text-cyan-400" />,
-      items: [
-        { 
-          name: "Diagnóstico / Revisión", 
-          desc: "Testeo integral de componentes y estabilidad del sistema.",
-          oldPrice: "$23.248", 
-          newPrice: "$20.923" 
-        },
-        { 
-          name: "Formateo + SO", 
-          desc: "Instalación limpia de Windows, drivers y configuración inicial.",
-          oldPrice: "$81.119", 
-          newPrice: "$73.007" 
-        },
-        { 
-          name: "Eliminación de Malware", 
-          desc: "Limpieza profunda de virus y optimización de arranque.",
-          oldPrice: "$63.325", 
-          newPrice: "$56.992" 
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FIRPO PC - Soporte Técnico Gamer en Munro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #060608;
+            color: #e2e8f0;
         }
-      ]
-    },
-    {
-      category: "Mantenimiento Físico",
-      icon: <Thermometer className="w-5 h-5 text-purple-500" />,
-      items: [
-        { 
-          name: "Limpieza PC + Pasta Térmica", 
-          desc: "Desarme total, soplado y aplicación de pasta térmica de alta gama.",
-          oldPrice: "$36.325", 
-          newPrice: "$32.692" 
-        },
-        { 
-          name: "Limpieza Notebook / AIO", 
-          desc: "Mantenimiento interno preventivo para evitar sobrecalentamiento.",
-          oldPrice: "$50.854", 
-          newPrice: "$45.768" 
-        },
-        { 
-          name: "Combo SSD + SO + Limpieza", 
-          desc: "Aceleración extrema: SSD nuevo + limpieza + sistema optimizado.",
-          oldPrice: "$75.249", 
-          newPrice: "$67.724" 
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-      ]
-    },
-    {
-      category: "Armado & Hardware",
-      icon: <Rocket className="w-5 h-5 text-yellow-500" />,
-      items: [
-        { 
-          name: "Armado PC Gamer", 
-          desc: "Ensamble pro, gestión de cables y testeo de stress inicial.",
-          oldPrice: "$123.200", 
-          newPrice: "$110.880" 
-        },
-        { 
-          name: "Armado PC Básica", 
-          desc: "Montaje de oficina u hogar con componentes estándar.",
-          oldPrice: "$87.179", 
-          newPrice: "$78.461" 
-        },
-        { 
-          name: "Instalación de Componentes", 
-          desc: "Montaje de GPU, RAM o Fuente con testeo de compatibilidad.",
-          oldPrice: "$29.060", 
-          newPrice: "$26.154" 
+        .hero-gradient {
+            background: radial-gradient(circle at center, rgba(147, 51, 234, 0.15) 0%, transparent 70%);
         }
-      ]
-    }
-  ];
+        input, select, textarea {
+            background: rgba(0, 0, 0, 0.5) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #9333ea !important;
+            outline: none;
+        }
+    </style>
+</head>
+<body class="selection:bg-purple-600 selection:text-white">
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const fd = new FormData(e.target);
-    const nombre = fd.get('nombre');
-    const servicio = fd.get('servicio');
-    const detalle = fd.get('detalle');
-    
-    const texto = `Hola Firpo PC! Mi nombre es ${nombre}.%0AQuisiera consultar por el servicio: *${servicio}*.%0A%0ADetalle: ${detalle}.%0A%0A(Entiendo que los precios corresponden a la mano de obra técnica).`;
-    
-    window.open(`${whatsappUrlBase}?text=${texto}`, '_blank');
-    setShowFormSuccess(true);
-    setTimeout(() => setShowFormSuccess(false), 5000);
-  };
-
-  return (
-    <div className="min-h-screen bg-[#08080a] text-slate-200 font-sans selection:bg-purple-600 selection:text-white overflow-x-hidden">
-      
-      {/* Promo Bar */}
-      <div className="bg-gradient-to-r from-purple-700 via-indigo-600 to-purple-700 py-1.5 text-center text-[10px] font-black tracking-[0.3em] uppercase sticky top-0 z-[70] shadow-lg">
-        <span className="animate-pulse">¡10% OFF EN MANO DE OBRA VIGENTE!</span>
-      </div>
-
-      {/* Navbar */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 top-7 ${scrolled ? 'bg-[#08080a]/90 backdrop-blur-md border-b border-white/5 py-2' : 'bg-transparent py-4'}`}>
-        <div className="max-w-7xl mx-auto px-4 flex justify-between items-center">
-          <div className="flex items-center gap-2 group cursor-pointer">
-            <div className="p-2 bg-purple-600 rounded-xl group-hover:rotate-12 transition-transform shadow-lg shadow-purple-600/20">
-              <Cpu className="w-6 h-6 text-white" />
-            </div>
-            <span className="text-2xl font-black italic tracking-tighter uppercase">
-              FIRPO<span className="text-purple-500">PC</span>
-            </span>
-          </div>
-
-          <div className="hidden md:flex items-center space-x-8 text-[10px] font-bold tracking-widest uppercase italic">
-            <a href="#inicio" className="hover:text-purple-400 transition-colors">Inicio</a>
-            <a href="#precios" className="hover:text-purple-400 transition-colors">Precios</a>
-            <a href="#contacto" className="px-6 py-2.5 bg-white text-black hover:bg-purple-600 hover:text-white rounded-full transition-all">
-              Presupuesto
-            </a>
-          </div>
-
-          <button className="md:hidden p-2" onClick={toggleMenu}>
-            {isMenuOpen ? <X /> : <Menu />}
-          </button>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMenuOpen && (
-          <div className="md:hidden bg-[#08080a] border-b border-white/10 p-8 flex flex-col space-y-6 text-center animate-in slide-in-from-top">
-            <a href="#inicio" onClick={toggleMenu} className="text-lg font-black uppercase italic">Inicio</a>
-            <a href="#precios" onClick={toggleMenu} className="text-lg font-black uppercase italic">Lista de Precios</a>
-            <a href="#contacto" onClick={toggleMenu} className="text-lg font-black uppercase italic text-purple-500">Pedir Presupuesto</a>
-          </div>
-        )}
-      </nav>
-
-      {/* WhatsApp Floating */}
-      <a 
-        href={whatsappUrlBase}
-        target="_blank"
-        rel="noreferrer"
-        className="fixed bottom-6 right-6 z-[60] bg-green-500 p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center gap-2 group"
-      >
-        <span className="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 font-bold whitespace-nowrap px-0 group-hover:px-2 text-sm text-white">WhatsApp</span>
-        <MessageCircle className="w-6 h-6 text-white" />
-      </a>
-
-      {/* Hero */}
-      <section id="inicio" className="relative pt-52 pb-32">
-        <div className="absolute inset-0 -z-10 opacity-30 pointer-events-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-purple-900/10 via-transparent to-[#08080a]" />
-          <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=1600" className="w-full h-full object-cover grayscale" alt="Background" />
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-[10px] font-black text-purple-400 uppercase tracking-widest mb-8">
-            <Zap className="w-3 h-3" /> Munro, Buenos Aires
-          </div>
-          <h1 className="text-6xl md:text-9xl font-black italic uppercase leading-none tracking-tighter mb-8">
-            POTENCIA <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-indigo-400">TU MAQUINA</span>
-          </h1>
-          <p className="max-w-xl mx-auto text-slate-400 text-lg mb-12 font-medium leading-relaxed">
-            Especialistas en armado y reparación de hardware gaming. 
-            Mantenimiento técnico profesional con garantía.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="#contacto" className="px-12 py-5 bg-purple-600 rounded-2xl font-black text-white hover:bg-purple-500 transition-all shadow-xl shadow-purple-600/30 uppercase italic italic tracking-tighter">
-              Solicitar Turno
-            </a>
-            <a href="https://www.instagram.com/firpopc" target="_blank" rel="noreferrer" className="px-12 py-5 bg-white/5 border border-white/10 rounded-2xl font-black text-white hover:bg-white/10 transition-all flex items-center justify-center gap-2 uppercase italic tracking-tighter">
-              <Instagram className="w-5 h-5" /> Instagram
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Prices */}
-      <section id="precios" className="py-24 bg-[#0a0a0c]">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
-            <div>
-              <h2 className="text-4xl font-black italic uppercase mb-2">Precios de Mano de Obra</h2>
-              <p className="text-slate-500 text-sm font-bold uppercase tracking-widest">Diciembre 2025 • Laboratorio Munro</p>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-purple-500/10 border border-purple-500/20 rounded-xl">
-               <Percent className="w-4 h-4 text-purple-500" />
-               <span className="text-xs font-black uppercase italic tracking-widest">10% OFF APLICADO</span>
-            </div>
-          </div>
-
-          {/* Disclaimer Box */}
-          <div className="bg-white/5 border-l-4 border-purple-500 p-6 rounded-r-2xl mb-12 flex items-start gap-4">
-            <AlertCircle className="w-6 h-6 text-purple-500 flex-shrink-0" />
-            <div className="text-sm">
-               <p className="font-black uppercase tracking-widest text-white mb-1">Aclaración Importante</p>
-               <p className="text-slate-400 font-medium">
-                  Los valores indicados corresponden únicamente a la <span className="text-white font-bold">mano de obra técnica</span>. 
-                  El costo de repuestos e insumos es adicional y se presupuestará según el modelo, o podrán ser provistos por el cliente.
-               </p>
-            </div>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {services.map((cat, idx) => (
-              <div key={idx} className="bg-[#0c0c0e] border border-white/5 rounded-[2.5rem] p-8 hover:border-purple-500/40 transition-all">
-                <div className="flex items-center gap-4 mb-8">
-                  <div className="p-3 bg-white/5 rounded-xl">{cat.icon}</div>
-                  <h3 className="text-xl font-black italic uppercase tracking-tighter">{cat.category}</h3>
-                </div>
-                <div className="space-y-8">
-                  {cat.items.map((item, i) => (
-                    <div key={i} className="flex flex-col group/item border-b border-white/5 pb-6 last:border-0 last:pb-0">
-                       <div className="flex justify-between items-start mb-2">
-                          <div className="flex flex-col">
-                            <span className="text-white font-black text-xs uppercase tracking-tighter mb-1">{item.name}</span>
-                            <span className="text-slate-500 text-[10px] leading-relaxed max-w-[160px] font-bold italic">{item.desc}</span>
-                          </div>
-                          <div className="flex flex-col items-end">
-                            <span className="text-slate-600 text-[10px] line-through font-black italic">{item.oldPrice}</span>
-                            <span className="text-purple-400 font-black text-xl tracking-tighter italic">{item.newPrice}</span>
-                          </div>
-                       </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Gallery Section */}
-      <section id="galeria" className="py-24">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-            <div>
-               <h2 className="text-4xl font-black italic uppercase">Galería de Trabajos</h2>
-               <p className="text-slate-500 font-bold mt-2 tracking-tight uppercase text-xs">Calidad técnica garantizada en cada proceso.</p>
-            </div>
-            <a href="https://www.instagram.com/firpopc" target="_blank" rel="noreferrer" className="flex items-center gap-2 px-6 py-3 bg-white/5 border border-white/10 rounded-xl font-black text-[10px] uppercase tracking-widest hover:text-purple-500 transition-colors">
-              <Instagram className="w-4 h-4" /> Seguir @firpopc
-            </a>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {[1,2,3,4,5,6].map(id => (
-              <div key={id} className="group relative aspect-square rounded-[2rem] overflow-hidden bg-white/5 border border-white/5">
-                <img 
-                  src={`https://images.unsplash.com/photo-${[
-                    '1587202372775-e229f172b9d7',
-                    '1591488320449-011701bb6704',
-                    '1542751371-adc38448a05e',
-                    '1624705002806-5d72df19c3ad',
-                    '1555680202-c86f0e12f086',
-                    '1603481546238-487240415921'
-                  ][id-1]}?q=80&w=600`} 
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-80 group-hover:opacity-100" 
-                  alt="Repair Work" 
-                />
-                <div className="absolute inset-0 bg-purple-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center p-4">
-                  <ExternalLink className="w-6 h-6 text-white" />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Form & Map */}
-      <section id="contacto" className="py-24 bg-[#0a0a0c]">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16">
-            <div>
-              <h2 className="text-5xl font-black italic uppercase mb-10 leading-none">PEDIR <br /><span className="text-purple-500">PRESUPUESTO</span></h2>
-              
-              <div className="space-y-10">
-                <div className="flex gap-6 items-start">
-                   <div className="p-4 bg-white/5 rounded-2xl border border-white/5"><MapPin className="text-purple-500" /></div>
-                   <div>
-                      <h4 className="font-black uppercase italic tracking-widest text-xs mb-1">Laboratorio en Munro</h4>
-                      <p className="text-slate-400 font-bold mb-1 italic">Bahía Blanca 5570, B1605</p>
-                      <p className="text-slate-600 text-[10px] font-black uppercase">Provincia de Buenos Aires</p>
-                   </div>
-                </div>
-
-                <div className="flex gap-6 items-start">
-                   <div className="p-4 bg-white/5 rounded-2xl border border-white/5"><Clock className="text-purple-500" /></div>
-                   <div>
-                      <h4 className="font-black uppercase italic tracking-widest text-xs mb-1">Horarios de Recepción</h4>
-                      <p className="text-slate-400 font-bold italic">Lunes a Viernes 10 a 19hs</p>
-                      <p className="text-slate-600 text-[10px] font-black uppercase italic">Consultar Urgencias por WhatsApp</p>
-                   </div>
-                </div>
-
-                <div className="flex gap-6 items-start">
-                   <div className="p-4 bg-white/5 rounded-2xl border border-white/5"><Instagram className="text-purple-500" /></div>
-                   <div>
-                      <h4 className="font-black uppercase italic tracking-widest text-xs mb-1">Redes Sociales</h4>
-                      <p className="text-slate-400 font-bold italic">@firpopc</p>
-                   </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-[#0c0c0e] p-8 md:p-12 rounded-[3.5rem] border border-white/5 relative overflow-hidden shadow-2xl">
-              {showFormSuccess ? (
-                <div className="h-64 flex flex-col items-center justify-center text-center animate-in zoom-in duration-500">
-                   <div className="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center mb-6 shadow-2xl shadow-green-500/20">
-                      <ShieldCheck className="w-10 h-10 text-white" />
-                   </div>
-                   <h3 className="text-2xl font-black uppercase italic text-white mb-2">¡Solicitud Lista!</h3>
-                   <p className="text-slate-400 text-sm font-bold">Aguarda mientras se abre WhatsApp...</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-5">
-                   <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2 italic">Nombre Completo</label>
-                      <input name="nombre" type="text" placeholder="Ej: Juan Pérez" className="w-full bg-black/50 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-purple-500 transition-all font-bold text-sm text-white" required />
-                   </div>
-                   <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2 italic">Servicio Requerido</label>
-                      <select name="servicio" className="w-full bg-black/50 border border-white/10 rounded-2xl px-6 py-4 outline-none focus:border-purple-500 transition-all font-bold text-sm text-white cursor-pointer appearance-none">
-                        <option>Mantenimiento (Limpieza + Pasta)</option>
-                        <option>Armado PC Gamer</option>
-                        <option>Formateo / Software</option>
-                        <option>Cambio de Componentes</option>
-                      </select>
-                   </div>
-                   <div>
-                      <label className="block text-[10px] font-black uppercase tracking-widest text-slate-500 mb-2 italic">Detalle del Equipo</label>
-                      <textarea name="detalle" placeholder="¿Qué problema tiene tu PC?" className="w-full bg-black/50 border border-white/10 rounded-2xl px-6 py-4 h-32 outline-none focus:border-purple-500 transition-all font-bold text-sm text-white resize-none" required></textarea>
-                   </div>
-                   
-                   <p className="text-[9px] text-slate-600 font-black uppercase italic leading-tight px-2">
-                     * Al enviar, acepto que los precios informados corresponden exclusivamente a la mano de obra técnica y que los repuestos tienen costo adicional.
-                   </p>
-
-                   <button type="submit" className="w-full py-5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl font-black text-white uppercase italic tracking-widest text-sm shadow-xl shadow-purple-600/30 hover:scale-[1.02] transition-transform">
-                     Enviar Presupuesto
-                   </button>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-20 border-t border-white/5 text-center">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-center gap-3 mb-10 opacity-40 grayscale group hover:grayscale-0 transition-all cursor-default">
-            <Cpu className="w-5 h-5" />
-            <span className="text-sm font-black italic tracking-widest uppercase">FIRPO PC MUNRO</span>
-          </div>
-          <p className="text-[10px] text-slate-700 font-black uppercase tracking-[0.6em] mb-4">
-            FIRPO PC &copy; 2025 - SERVICIO TÉCNICO ESPECIALIZADO
-          </p>
-          <p className="text-[8px] text-slate-800 font-bold uppercase tracking-widest max-w-xl mx-auto italic">
-            Las imágenes son a título ilustrativo. Precios sujetos a diagnóstico previo. 
-            El cliente puede traer sus propios componentes. Garantía escrita de 3 meses en mano de obra.
-          </p>
-        </div>
-      </footer>
+    <!-- Promo Banner -->
+    <div class="bg-gradient-to-r from-purple-700 via-indigo-600 to-purple-700 py-2 text-center text-[10px] font-black tracking-[0.3em] uppercase sticky top-0 z-[70] shadow-xl">
+        <span class="animate-pulse">10% DE DESCUENTO EN MANO DE OBRA VIGENTE</span>
     </div>
-  );
-};
 
-export default App;
+    <!-- Navbar -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 top-10 px-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center h-20 px-6 glass rounded-2xl">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-purple-600 rounded-xl">
+                    <i data-lucide="cpu" class="w-6 h-6 text-white"></i>
+                </div>
+                <span class="text-2xl font-black italic tracking-tighter uppercase">FIRPO<span class="text-purple-500">PC</span></span>
+            </div>
+
+            <div class="hidden md:flex items-center space-x-8 text-[11px] font-black tracking-widest uppercase italic">
+                <a href="#inicio" class="hover:text-purple-400 transition-colors">Inicio</a>
+                <a href="#precios" class="hover:text-purple-400 transition-colors">Precios</a>
+                <a href="#contacto" class="px-6 py-2.5 bg-white text-black hover:bg-purple-600 hover:text-white rounded-full transition-all">Presupuesto</a>
+            </div>
+
+            <button class="md:hidden" onclick="toggleMenu()">
+                <i data-lucide="menu" id="menu-icon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden absolute top-24 left-4 right-4 glass rounded-3xl p-8 flex flex-col space-y-6 text-center animate-in slide-in-from-top">
+            <a href="#inicio" onclick="toggleMenu()" class="text-lg font-black uppercase italic">Inicio</a>
+            <a href="#precios" onclick="toggleMenu()" class="text-lg font-black uppercase italic">Precios</a>
+            <a href="#contacto" onclick="toggleMenu()" class="text-lg font-black uppercase italic text-purple-500">Contacto</a>
+        </div>
+    </nav>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/541157273920" target="_blank" class="fixed bottom-8 right-8 z-[60] bg-green-500 p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center gap-2 group text-white">
+        <span class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 font-bold whitespace-nowrap px-0 group-hover:px-2">WhatsApp</span>
+        <i data-lucide="message-circle" class="w-7 h-7"></i>
+    </a>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="relative pt-64 pb-32 hero-gradient overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/30 text-[10px] font-black text-purple-400 uppercase tracking-widest mb-8">
+                <i data-lucide="zap" class="w-3 h-3"></i> Soporte Técnico en Munro
+            </div>
+            <h1 class="text-6xl md:text-9xl font-black italic uppercase leading-none tracking-tighter mb-8 text-white">
+                REVIVE TU <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-indigo-400 to-cyan-400">BESTIA GAMER</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-slate-400 text-lg md:text-xl mb-12 font-medium">
+                Laboratorio especializado en hardware de alto rendimiento. Diagnóstico, mantenimiento y armado de equipos Pro.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#contacto" class="px-12 py-5 bg-purple-600 rounded-2xl font-black text-lg hover:bg-purple-500 transition-all shadow-xl shadow-purple-600/30 uppercase italic tracking-tighter">Solicitar Turno</a>
+                <a href="https://www.instagram.com/firpopc" target="_blank" class="px-12 py-5 bg-white/5 border border-white/10 rounded-2xl font-black text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-2 uppercase italic tracking-tighter">
+                    <i data-lucide="instagram" class="w-5 h-5"></i> Instagram
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Precios -->
+    <section id="precios" class="py-24 bg-[#0a0a0c]">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="mb-16 flex flex-col md:flex-row justify-between items-end gap-6">
+                <div>
+                    <h2 class="text-4xl font-black italic uppercase mb-2">Lista de Precios 2025</h2>
+                    <p class="text-slate-500 text-sm font-bold uppercase tracking-widest">Munro • AMBA</p>
+                </div>
+                <div class="flex items-center gap-2 px-6 py-3 bg-purple-500/10 border border-purple-500/30 rounded-2xl">
+                    <i data-lucide="percent" class="w-4 h-4 text-purple-500"></i>
+                    <span class="text-xs font-black uppercase italic tracking-widest">10% OFF YA APLICADO</span>
+                </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="glass border-l-4 border-purple-500 p-6 rounded-r-3xl mb-12 flex items-start gap-4 shadow-lg">
+                <i data-lucide="alert-circle" class="w-6 h-6 text-purple-500 flex-shrink-0"></i>
+                <div class="text-sm">
+                    <p class="font-black uppercase tracking-widest text-white mb-1">Aclaración Importante</p>
+                    <p class="text-slate-400 leading-relaxed font-medium">
+                        Los precios indicados corresponden exclusivamente a la <span class="text-white font-bold underline decoration-purple-500 underline-offset-4">mano de obra técnica</span>. El costo de repuestos e insumos es adicional o puede ser provisto por el cliente.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Grid de Precios -->
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Categoria 1 -->
+                <div class="glass rounded-[2.5rem] p-8 hover:border-purple-500/40 transition-all group">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="p-3 bg-white/5 rounded-2xl text-cyan-400">
+                            <i data-lucide="settings"></i>
+                        </div>
+                        <h3 class="text-xl font-black italic uppercase tracking-tighter">Software</h3>
+                    </div>
+                    <div class="space-y-8" id="software-prices">
+                        <!-- Items cargados dinámicamente o fijos -->
+                        <div class="flex flex-col border-b border-white/5 pb-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex flex-col">
+                                    <span class="text-white font-black text-xs uppercase italic tracking-tighter">Diagnóstico</span>
+                                    <span class="text-slate-500 text-[10px] font-bold italic">Testeo integral de componentes.</span>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <span class="text-slate-600 text-[10px] line-through italic font-black">$23.248</span>
+                                    <span class="text-purple-400 font-black text-xl italic">$20.923</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col border-b border-white/5 pb-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex flex-col">
+                                    <span class="text-white font-black text-xs uppercase italic tracking-tighter">Formateo + SO</span>
+                                    <span class="text-slate-500 text-[10px] font-bold italic">Instalación limpia de Windows.</span>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <span class="text-slate-600 text-[10px] line-through italic font-black">$81.119</span>
+                                    <span class="text-purple-400 font-black text-xl italic">$73.007</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categoria 2 -->
+                <div class="glass rounded-[2.5rem] p-8 hover:border-purple-500/40 transition-all group">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="p-3 bg-white/5 rounded-2xl text-purple-500">
+                            <i data-lucide="thermometer"></i>
+                        </div>
+                        <h3 class="text-xl font-black italic uppercase tracking-tighter">Hardware</h3>
+                    </div>
+                    <div class="space-y-8">
+                        <div class="flex flex-col border-b border-white/5 pb-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex flex-col">
+                                    <span class="text-white font-black text-xs uppercase italic tracking-tighter">Limpieza + Pasta PC</span>
+                                    <span class="text-slate-500 text-[10px] font-bold italic">Mantenimiento preventivo pro.</span>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <span class="text-slate-600 text-[10px] line-through italic font-black">$36.325</span>
+                                    <span class="text-purple-400 font-black text-xl italic">$32.692</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col border-b border-white/5 pb-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex flex-col">
+                                    <span class="text-white font-black text-xs uppercase italic tracking-tighter">Combo SSD + SO</span>
+                                    <span class="text-slate-500 text-[10px] font-bold italic">Aceleración extrema de sistema.</span>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <span class="text-slate-600 text-[10px] line-through italic font-black">$75.249</span>
+                                    <span class="text-purple-400 font-black text-xl italic">$67.724</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Categoria 3 -->
+                <div class="glass rounded-[2.5rem] p-8 hover:border-purple-500/40 transition-all group">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="p-3 bg-white/5 rounded-2xl text-yellow-500">
+                            <i data-lucide="rocket"></i>
+                        </div>
+                        <h3 class="text-xl font-black italic uppercase tracking-tighter">Gaming Pro</h3>
+                    </div>
+                    <div class="space-y-8">
+                        <div class="flex flex-col border-b border-white/5 pb-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex flex-col">
+                                    <span class="text-white font-black text-xs uppercase italic tracking-tighter">Armado PC Gamer</span>
+                                    <span class="text-slate-500 text-[10px] font-bold italic">Gestión de cables y optimización.</span>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <span class="text-slate-600 text-[10px] line-through italic font-black">$123.200</span>
+                                    <span class="text-purple-400 font-black text-xl italic">$110.880</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col border-b border-white/5 pb-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex flex-col">
+                                    <span class="text-white font-black text-xs uppercase italic tracking-tighter">Upgrade Hardware</span>
+                                    <span class="text-slate-500 text-[10px] font-bold italic">Montaje de piezas individuales.</span>
+                                </div>
+                                <div class="flex flex-col items-end">
+                                    <span class="text-slate-600 text-[10px] line-through italic font-black">$29.060</span>
+                                    <span class="text-purple-400 font-black text-xl italic">$26.154</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galería -->
+    <section id="galeria" class="py-24">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <h2 class="text-4xl font-black italic uppercase mb-12">Nuestro Taller</h2>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="aspect-square rounded-[2rem] overflow-hidden bg-white/5">
+                    <img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Repair 1" onerror="this.src='https://via.placeholder.com/600x600/1a1a1a/purple?text=FIRPO+PC'">
+                </div>
+                <div class="aspect-square rounded-[2rem] overflow-hidden bg-white/5">
+                    <img src="https://images.unsplash.com/photo-1591488320449-011701bb6704?q=80&w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Repair 2" onerror="this.src='https://via.placeholder.com/600x600/1a1a1a/purple?text=FIRPO+PC'">
+                </div>
+                <div class="aspect-square rounded-[2rem] overflow-hidden bg-white/5">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=600" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" alt="Repair 3" onerror="this.src='https://via.placeholder.com/600x600/1a1a1a/purple?text=FIRPO+PC'">
+                </div>
+            </div>
+            <a href="https://www.instagram.com/firpopc" target="_blank" class="inline-flex items-center gap-2 mt-12 text-purple-400 font-bold uppercase tracking-widest text-xs hover:text-white transition-colors">
+                <i data-lucide="instagram" class="w-4 h-4"></i> Ver más en Instagram @firpopc
+            </a>
+        </div>
+    </section>
+
+    <!-- Contacto -->
+    <section id="contacto" class="py-24 bg-[#0a0a0c]">
+        <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16">
+            <div>
+                <h2 class="text-5xl font-black italic uppercase mb-10 text-white leading-tight">PRESUPUESTO <br><span class="text-purple-500">DIRECTO</span></h2>
+                <div class="space-y-10">
+                    <div class="flex gap-6">
+                        <div class="p-4 glass rounded-2xl h-fit border border-white/5"><i data-lucide="map-pin" class="text-purple-500"></i></div>
+                        <div>
+                            <h4 class="font-black uppercase italic text-xs mb-1 tracking-widest">Ubicación</h4>
+                            <p class="text-slate-400 font-bold italic">Bahía Blanca 5570, Munro</p>
+                            <p class="text-slate-600 text-[10px] font-black uppercase">Buenos Aires, Argentina</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-6">
+                        <div class="p-4 glass rounded-2xl h-fit border border-white/5"><i data-lucide="phone" class="text-purple-500"></i></div>
+                        <div>
+                            <h4 class="font-black uppercase italic text-xs mb-1 tracking-widest">WhatsApp</h4>
+                            <p class="text-slate-400 font-bold italic">+54 11 5727-3920</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass p-10 rounded-[3.5rem] relative overflow-hidden">
+                <form id="quote-form" class="space-y-5">
+                    <input type="text" id="name" placeholder="Tu Nombre" class="w-full rounded-2xl px-6 py-5 font-bold text-white text-sm" required>
+                    <select id="service" class="w-full rounded-2xl px-6 py-5 font-bold text-white text-sm cursor-pointer appearance-none">
+                        <option>Mantenimiento Preventivo</option>
+                        <option>Armado de PC Gamer</option>
+                        <option>Formateo / Optimización</option>
+                        <option>Instalación Hardware</option>
+                    </select>
+                    <textarea id="detail" placeholder="¿Qué necesita tu PC?" class="w-full rounded-2xl px-6 py-5 h-36 font-bold text-white text-sm resize-none" required></textarea>
+                    
+                    <p class="text-[9px] text-slate-600 font-black uppercase italic px-2">
+                        * Entiendo que los precios informados corresponden exclusivamente a la mano de obra técnica.
+                    </p>
+
+                    <button type="submit" class="w-full py-5 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-2xl font-black text-white uppercase italic tracking-widest text-sm shadow-xl shadow-purple-600/30 hover:scale-[1.02] transition-transform">
+                        Enviar a WhatsApp
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 border-t border-white/5 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <span class="text-xs font-black italic tracking-widest uppercase opacity-40">FIRPO PC MUNRO &copy; 2025</span>
+            <p class="text-[8px] text-slate-800 font-bold uppercase tracking-widest mt-6 max-w-xl mx-auto italic leading-loose">
+                PRECIOS SUJETOS A DIAGNÓSTICO PREVIO. EL CLIENTE PUEDE TRAER SUS PROPIOS COMPONENTES. GARANTÍA ESCRITA EN MANO DE OBRA.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Inicializar iconos
+        lucide.createIcons();
+
+        // Menu Toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // WhatsApp Form Integration
+        document.getElementById('quote-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const service = document.getElementById('service').value;
+            const detail = document.getElementById('detail').value;
+            const whatsappNumber = "541157273920";
+
+            const message = `Hola Firpo PC! Mi nombre es ${name}.%0AQuisiera consultar por el servicio: *${service}*.%0A%0ADetalle: ${detail}.%0A%0A(Entiendo que los precios corresponden a la mano de obra técnica).`;
+            
+            window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank');
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.style.top = '0px';
+                nav.querySelector('div').classList.remove('rounded-2xl');
+                nav.querySelector('div').classList.add('rounded-none', 'border-x-0', 'border-t-0');
+            } else {
+                nav.style.top = '40px';
+                nav.querySelector('div').classList.add('rounded-2xl');
+                nav.querySelector('div').classList.remove('rounded-none');
+            }
+        });
+    </script>
+</body>
+</html>
